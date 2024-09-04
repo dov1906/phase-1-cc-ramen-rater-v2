@@ -1,4 +1,3 @@
-
 // index.js
 
 // Callbacks
@@ -23,7 +22,8 @@ const addSubmitListener = () => {
   const submitform = document.getElementById("new-ramen")
   submitform.addEventListener('submit', handleSubmit)
 
-}
+};
+
 function handleSubmit(e){
   e.preventDefault()
   const newname = document.getElementById("new-name").value
@@ -39,7 +39,7 @@ function handleSubmit(e){
     rating: newrating,
     comment: newcomment
 
-  }
+  };
 
   const ramenDisplay = document.getElementById("ramen-menu")
   const ramenImage = document.createElement('img')
@@ -47,38 +47,36 @@ function handleSubmit(e){
   ramenDisplay.appendChild(ramenImage)
   ramenImage.addEventListener('click', () => handleClick(newfood))
   e.target.reset()
-}
+};
 
-const displayRamens = (ramens = []) => {
+const displayRamens = () => {
   // Add code
   const ramenDisplay = document.getElementById("ramen-menu")
+  fetch('http://localhost:3000/ramens')
+   .then(ser => ser.json())
+   .then(ramens => {
   ramens.forEach(ramen => {
     const ramenImage = document.createElement('img')
     ramenImage.src = ramen.image
     ramenDisplay.appendChild(ramenImage)
     ramenImage.addEventListener('click', () => handleClick(ramen))
   });
-
-
-
+  });
 };
 
 const main = () => {
   // Invoke displayRamens here
   // Invoke addSubmitListener here
-  fetch('http://localhost:3000/ramens')
-  .then(ser => ser.json())
-  .then(ramen => {
   
-  displayRamens(ramen)
+  displayRamens()
   addSubmitListener()
 
-  })
+  };
 
   
-}
 
-main()
+
+document.addEventListener("DOMContentLoaded", main)
 
 
 // Export functions for testing
